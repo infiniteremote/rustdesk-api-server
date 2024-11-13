@@ -1,4 +1,5 @@
 # cython:language_level=3
+import os
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
@@ -348,7 +349,18 @@ def share(request):
 
 @login_required(login_url='/api/user_action?action=login')
 def installers(request):
-    return render(request, 'installers.html')
+    custom = os.path.join('clients','custom')
+    client_custom_files = {}
+    if os.path.exists(custom):
+        for file in os.listdir(custom):
+            filepath = os.path.join(custom,file)
+            modified = datetime.datetime.fromtimestamp(os.path.getmtime(filepath)).strftime('%Y-%m-%d %I:%M:%S %p')
+            client_custom_files[file] = {
+                'file': file,
+                'modified': modified,
+                'path': custom
+            }
+    return render(request, 'installers.html', {'client_custom_files': client_custom_files})
 
 def get_conn_log():
     logs = ConnLog.objects.all()

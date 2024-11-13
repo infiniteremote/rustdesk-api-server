@@ -71,6 +71,29 @@
       </div>
     </div>
   </div>
+  <div class="layui-col-md15">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <table class="layui-table">
+          <thead>
+            <a href="/api/generator">Client Generator</a>
+          </thead>
+          <tbody>
+            <tr>
+                <th>File</th>
+                <th>Date</th>
+            </tr>
+            {% for filename, fileinfo in client_files.items %}
+            <tr>
+                <td><a href='/api/download?filename={{filename}}&path={{fileinfo.path}}'>{{filename}}</a></td>
+                <td>{{fileinfo.modified}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+  </div>
+</div>
 </div>
 
 {% endblock %}
