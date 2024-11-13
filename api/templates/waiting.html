@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}RustDesk WebUI{% endblock %}
+{% block legend_name %}Client Generator{% endblock %}
+{% block content %}
+<div style="padding: 20px;">Please wait...This can take 20-30 minutes (or longer if there are other users).<br><br>
+You will be redirected to the Installers page to download your custom installer once generator is complete.<br><br>
+You can close this window at anytime, or stay here to get status updates.<br><br>
+<h2>Status: {{status}}</h2></div>
+<script>
+    setTimeout(function() {
+        window.location.replace('/api/check_for_file?filename={{filename}}&uuid={{uuid}}&platform={{platform}}');
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>
+{% endblock %}

@@ -16,6 +16,8 @@ test
 *.bat
 server.ico
 start.py
+icon.png
+logo.png
 
 # Build
 build
