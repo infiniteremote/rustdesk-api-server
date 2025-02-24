@@ -28,7 +28,6 @@ if [ -f /etc/os-release ]; then
         UPSTREAM_ID="$(echo ${ID_LIKE,,} | sed s/\"//g | cut -d' ' -f1)"
     fi
 
-
 elif type lsb_release >/dev/null 2>&1; then
     # linuxbase.org
     OS=$(lsb_release -si)
@@ -56,15 +55,27 @@ else
     VER=$(uname -r)
 fi
 
+# Identify processor architecture
+ARCH=$(uname -m)
+
+# Check if processor architecture is within valid options
+if [ ! "${ARCH}" = "x86_64" ] && [ ! "${ARCH}" = "aarch64" ]; then
+    echo "Unknown processor architecture"
+    exit 1
+fi
+
+# RustDesk version (manually set by now)
+VERSION="1.3.8"
+
 # Install RustDesk
 
 echo "Installing RustDesk"
 if [ "${ID}" = "debian" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ]  || [ "${UPSTREAM_ID}" = "ubuntu" ] || [ "${UPSTREAM_ID}" = "debian" ]; then
-    wget https://github.com/rustdesk/rustdesk/releases/download/1.3.7/rustdesk-1.3.7-x86_64.deb
-    apt-get install -fy ./rustdesk-1.3.7-x86_64.deb > null
+    wget https://github.com/rustdesk/rustdesk/releases/download/"${VERSION}"/rustdesk-"${VERSION}"-"${ARCH}".deb
+    apt-get install -fy ./rustdesk-"${VERSION}"-"${ARCH}".deb > null
 elif [ "$OS" = "CentOS" ] || [ "$OS" = "RedHat" ] || [ "$OS" = "Fedora Linux" ]  || [ "${UPSTREAM_ID}" = "rhel" ] ; then
-    wget https://github.com/rustdesk/rustdesk/releases/download/1.3.7/rustdesk-1.3.7-0.x86_64.rpm
-    yum localinstall ./rustdesk-1.3.7-0.x86_64.rpm -y > null
+    wget https://github.com/rustdesk/rustdesk/releases/download/"${VERSION}"/rustdesk-"${VERSION}"-0."${ARCH}".rpm
+    yum localinstall ./rustdesk-"${VERSION}"-0."${ARCH}".rpm -y > null
 else
     echo "Unsupported OS"
     # here you could ask the user for permission to try and install anyway
