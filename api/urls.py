@@ -27,4 +27,10 @@ urlpatterns = [
     url(r'^delete_peer',views.delete_peer),
     url(r'^edit_peer',views.edit_peer),
     url(r'^assign_peer',views.assign_peer),
+     url(r'^generator',views.generator_view),
+    url(r'^check_for_file',views.check_for_file),
+    url(r'^download_client',views.download_client),
+    url(r'^creategh',views.create_github_run),
+    url(r'^updategh',views.update_github_run),
+    url(r'^save_custom_client',views.save_custom_client),
     ]
