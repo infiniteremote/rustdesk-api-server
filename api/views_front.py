@@ -70,11 +70,11 @@ def model_to_dict2(instance, fields=None, exclude=None, replace=None, default=No
         if type(f) == DateTimeField:
             # If the field type is DateTimeField, handle it in a specific way
             value = getattr(instance, key)
-            value = datetime.datetime.strftime(value, '%Y-%m-%d')
+            value = datetime.datetime.strftime(value, '%Y-%m-%d %H:%M:%S')
         elif type(f) == DateField:
             # If the field type is DateField, handle it in a specific way
             value = getattr(instance, key)
-            value = datetime.datetime.strftime(value, '%Y-%m-%d')
+            value = datetime.datetime.strftime(value, '%Y-%m-%d %H:%M:%S')
         elif type(f) == CharField or type(f) == TextField:
             # Check if string data can be serialized into Python structures
             value = getattr(instance, key)
@@ -186,8 +186,8 @@ def get_single_info(uid):
 
     now = datetime.datetime.now()
     for rid, device in devices.items():
-        peers[rid]['create_time'] = device.create_time.strftime('%Y-%m-%d')
-        peers[rid]['update_time'] = device.update_time.strftime('%Y-%m-%d')
+        peers[rid]['create_time'] = device.create_time.strftime('%Y-%m-%d %H:%M:%S')
+        peers[rid]['update_time'] = device.update_time.strftime('%Y-%m-%d %H:%M:%S')
         peers[rid]['version'] = device.version
         peers[rid]['memory'] = device.memory
         peers[rid]['cpu'] = device.cpu
@@ -224,7 +224,7 @@ def get_all_info():
             devices[peer.rid]['rust_user'] = user.username
 
     for k, v in devices.items():
-        if (now-datetime.datetime.strptime(v['update_time'], '%Y-%m-%d')).seconds <=120:
+        if (now-datetime.datetime.strptime(v['update_time'], '%Y-%m-%d %H:%M:%S')).seconds <=120:
             devices[k]['status'] = 'Online'
             online_count += 1
         else: 
